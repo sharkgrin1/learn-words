@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head/common :: head (title='Регистрация')"></head>
+<body class="d-flex flex-column h-100" style="background-color: #212529">
+<header th:insert="fragments/header :: nav"></header>
+<main class="flex-shrink-0">
+    <div class="container mt-10 mb-4 text-white bg-dark">
+
+        <h1 class="text-center">Регистрация</h1>
+
+        <p class="text-center mt-2" th:if="${notUniqueUser}" th:inline="text" style="color: red">
+            [[${notUniqueUser}]]</p>
+
+        <form th:method="POST" th:action="@{/registration}" th:object="${user}">
+
+            <input hidden class="form-control" type="text" name="avatar" value="default.png">
+
+            <div class="row justify-content-center">
+                <div class="col-sm-5 mb-3">
+                    <label class="form-label" for="username">Имя пользователя: </label>
+                    <input class="form-control" type="text" id="username" th:field="*{username}">
+                    <p class="text-center mt-2" style="color: red" th:if="${#fields.hasErrors('username')}"
+                       th:errors="*{username}"></p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-sm-5 mb-3">
+                    <label class="form-label" for="email">Email: </label>
+                    <input class="form-control" type="email" id="email" th:field="*{email}">
+                    <p class="text-center mt-2" style="color: red" th:if="${#fields.hasErrors('email')}"
+                       th:errors="*{email}"></p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-sm-5 mb-3">
+                    <label class="form-label" for="password">Пароль: </label>
+                    <input class="form-control"
+                           type="password"
+                           id="password"
+                           th:field="*{password}"
+                           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                           placeholder="минимум: 8 символов, 1 буква, 1 цифра">
+                    <p class="text-center mt-2" style="color: red" th:if="${#fields.hasErrors('password')}"
+                       th:errors="*{password}"></p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-sm-5 mb-3">
+                    <label class="form-label" for="passwordConfirm">Подтверждение пароля: </label>
+                    <input class="form-control" type="password" id="passwordConfirm" th:field="*{password2}">
+                    <p class="text-center mt-2" style="color: red" th:if="${#fields.hasErrors('password2')}"
+                       th:errors="*{password2}"></p>
+                </div>
+            </div>
+            <p class="text-center mt-2" th:if="${passwordNotEquals}" th:inline="text" style="color: red">
+                [[${passwordNotEquals}]]</p>
+
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <button class="btn btn-light" type="submit">Зарегистрироваться</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</main>
+
+<footer th:replace="fragments/simple-footer :: footer(dark='bg-dark')"></footer>
+
+</body>
+</html>

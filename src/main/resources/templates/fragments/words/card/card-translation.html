@@ -1,0 +1,53 @@
+<!--    карточка со словом-->
+<div class="card mx-auto mb-4" th:fragment="card(words)" th:each="trans : ${words}">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-auto me-auto">
+                <span class="card-title">Перевод:</span>
+                <h5 th:each="tr : ${trans.translations}">[[${tr}]]</h5>
+            </div>
+
+            <div th:if="${wordNames}" class="col-auto">
+                <div th:replace="fragments/words/card/actions"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <form class="row g-3" th:id="checkAnswer+${trans.id}">
+            <div class="col-md-3">
+                <input type="search" autocomplete="off" class="form-control" th:id="id+${trans.id}">
+                <span th:hidden="${true}" th:id="error+${trans.id}"
+                      style="color: red">Ответ не сходится с указанным</span>
+                <span th:hidden="${true}" th:id="right+${trans.id}" style="color: green">Ответ сходится</span>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success mb-3">Проверить</button>
+            </div>
+        </form>
+
+        <div class="row mt-2">
+            <div class="col-auto">
+                <button type="button" class="btn btn-info btn-circle"
+                        data-toggle="collapse"
+                        th:attr="data-target='#answer'+${trans.id}"
+                        aria-expanded="false"><i class="fas fa-info"></i></button>
+            </div>
+            <div class="collapse col-auto" th:id="answer+${trans.id}">
+                <input class="form-control" readonly th:value="${trans.name}">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--проверка слова в карточке-->
+    <script th:replace="fragments/words/validation/check-card-translation"></script>
+
+
+    <div th:replace="fragments/words/card/card-footer"></div>
+
+</div>
+<!--    карточка со словом-->

@@ -1,0 +1,19 @@
+<script th:inline="javascript">
+    $(document).keydown(function(event) {
+        if (event.keyCode === 27) {
+            document.getElementById("overlay").style.display = "none";
+        }
+    });
+
+    $(document).ready(function() {
+        if ([[${search}]]) {
+            document.getElementById("overlay").style.display = "block";
+        }
+    });
+
+    function on() {
+        if (document.getElementById("overlay").style.display === 'block')
+            document.getElementById("overlay").style.display = "none";
+        else document.getElementById("overlay").style.display = "block";
+    }
+</script>

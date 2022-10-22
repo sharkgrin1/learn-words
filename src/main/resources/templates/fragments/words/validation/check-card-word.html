@@ -1,0 +1,15 @@
+<script th:inline="javascript">
+    $("#checkAnswer" + "[[${trans.id}]]").submit(function (e) {
+        let translations = [[${trans.translations}]].map(w => w.toString().toLowerCase())
+        if (translations.includes(document.getElementById("id" + "[[${trans.id}]]").value.toLowerCase())) {
+            document.getElementById("right" + "[[${trans.id}]]").hidden = false;
+            document.getElementById("error" + "[[${trans.id}]]").hidden = true;
+        } else {
+            document.getElementById("error" + "[[${trans.id}]]").hidden = false;
+            document.getElementById("right" + "[[${trans.id}]]").hidden = true;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+    });
+</script>

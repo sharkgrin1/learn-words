@@ -1,0 +1,14 @@
+<script xmlns:th="https://www.thymeleaf.org" th:fragment="group(name,id)" th:inline="javascript">
+    var template = '<div class="input-group mb-2"><input type="text" class="form-control" autocomplete="off" name="' + [[${name}]] + '"/></div>',
+        minusButton = '<span class="btn input-group-addon delete-field">(-)</span>';
+
+    $('#add-field' + [[${id}]]).click(function () {
+        var temp = $(template).insertBefore('#help-block' + [[${id}]]);
+        temp.append(minusButton);
+    });
+
+
+    $('.fields').on('click', '.delete-field', function () {
+        $(this).parent().remove();
+    });
+</script>

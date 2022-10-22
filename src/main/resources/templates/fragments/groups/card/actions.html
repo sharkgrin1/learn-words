@@ -1,0 +1,30 @@
+<!--                окно действий-->
+<div class="dropdown">
+    <button class="btn btn-dark dropdown-toggle" type="button" id="actions"
+            data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-list-alt fa-lg"></i>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="actions">
+        <li>
+            <button class="dropdown-item" data-bs-toggle="modal"
+                    th:attr="data-bs-target='#modal'+${group.id}"><i
+                    class="fas fa-edit"></i> Изменить
+            </button>
+        </li>
+
+        <li>
+            <form th:method="delete" th:action="@{/groups/{id}(id=${group.id})}">
+                <button type="submit" class="dropdown-item"><i class="fas fa-trash-alt"></i> Удалить
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
+<!--                окно действий-->
+
+<!-- Modal -->
+<div th:replace="fragments/groups/card/edit-modal"></div>
+
+
+<!-- Валидация группы в форме редактирования -->
+<script th:replace="fragments/groups/validation/edit-group-form"></script>

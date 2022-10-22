@@ -1,0 +1,66 @@
+<div class="modal fade" xmlns:th="https://www.thymeleaf.org" th:id="modal+${trans.id}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение слова</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <form th:action="@{/words}" th:method="put" th:id="editWord+${trans.id}">
+                <div class="modal-body">
+                    <input hidden name="switch" th:value="${isWords}">
+                    <input hidden th:value="${trans.id}" name="id">
+                    <input th:if="${group}" hidden name="groupId" th:value="${group.id}">
+                    <div class="mb-3 row">
+                        <label th:for="wordInput+${trans.id}"
+                               class="col-sm-3 col-form-label">Слово/фраза</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control mb-2"
+                                   th:id="wordInput+${trans.id}"
+                                   required
+                                   th:value="${trans.name}" name="name">
+                            <span th:id="notUniqueWord+${trans.id}" style="color: red" hidden>Такое
+                                                    слово уже
+                                                    существует</span>
+                        </div>
+                    </div>
+
+                    <div class="fields mb-3">
+                        <div class="row">
+                            <div th:each="tr : ${trans.translations}" class="col-md-10">
+                                <input type="text" class="form-control mb-2" required
+                                       th:value="${tr}" name="translations"/>
+                            </div>
+                            <div class="col-auto">
+                                                     <span class="btn"
+                                                           th:id="add-field+${trans.id}">(+)</span>
+
+                            </div>
+                            <p th:id="help-block+${trans.id}">Введите перевод</p>
+
+                        </div>
+
+
+                    </div>
+
+                    <script th:replace="fragments/group-input :: group(name='translations',id=${trans.id})"></script>
+
+
+                    <select class="js-select2" multiple="multiple" name="groupNames">
+                        <option th:each="group : ${groupList}" th:value="${group.nameGroup}"
+                                th:text="${group.nameGroup}"
+                                data-badge=""
+                                th:selected="${trans.groups.contains(group)}"></option>
+                    </select>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+                        Закрыть
+                    </button>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

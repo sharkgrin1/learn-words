@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head/common :: head(title='Мои тесты',extra=true)">
+
+</head>
+<body class="d-flex flex-column h-100">
+<header th:insert="fragments/header :: nav"></header>
+<main class="flex-shrink-0">
+    <div class="container mt-7 mb-4">
+
+        <div class="row">
+            <div class="col me-auto">
+                <button class="btn btn-dark mb-3" type="button" data-toggle="collapse" data-target="#addNewTest"
+                        aria-expanded="false" aria-controls="addNewTest">
+                    Добавить тест
+                </button>
+            </div>
+        </div>
+
+        <div class="collapse mb-4" id="addNewTest">
+            <div class="card card-body">
+
+                <form class="row" method="post" th:action="@{/tests}" th:object="${test}">
+                    <div class="col-md-4 mb-4">
+                        <input type="text" class="form-control mb-2" placeholder="Название" required
+                               autocomplete="off" id="nameTest"
+                               th:field="*{nameTest}">
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <select class="form-select" required aria-label="Группа" name="selectedGroup">
+                            <option th:each="group : ${groups}"
+                                    th:value="${group.nameGroup}">
+                                [[${group.nameGroup}]]
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <label for="countWords" class="form-label">Количество слов</label>
+                        <input type="range" class="form-range" min="1" max="1" name="countWords" id="countWords">
+                        <p id="textCount"></p>
+                    </div>
+
+                    <script th:inline="javascript">
+                        let groups = [[${groups}]];
+
+                        if (groups.length >= 1) {
+
+                            $(document).ready(function () {
+                                $("#countWords").attr('max', groups[0].countWords);
+                                $("#textCount").text($("#countWords").val());
+
+                                $("#nameTest").val(groups[0].nameGroup);
+                            })
+
+
+                            $("select").change(function () {
+                                let index = $("select").prop('selectedIndex');
+
+                                $("#countWords").attr('max', groups[index].countWords);
+
+                                $("#nameTest").val(groups[index].nameGroup);
+
+                            });
+                        }
+
+                        $("#countWords").change(function () {
+                            $("#textCount").text($("#countWords").val());
+                        });
+                    </script>
+
+
+                    <div class="row justify-content-center">
+                        <div class="col-sm-auto">
+                            <button type="submit" class="btn btn-warning">Добавить</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+
+        <div class="card mx-auto mb-4" th:each="test : ${tests}">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-auto me-auto mt-2">
+                        <h5 class="card-title" th:text="${test.nameTest}"></h5>
+                    </div>
+                    <form class="col-auto" th:method="delete" th:action="@{/tests/{id}(id=${test.id})}">
+                        <button class="btn btn-dark" type="submit"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Группа: [[${test.group.nameGroup}]]</p>
+                <a th:href="@{/tests/{id}(id=${test.id})}" class="btn btn-primary">Пройти</a>
+            </div>
+            <div class="card-footer">
+                <span class="text-muted">Количество слов: [[${test.countWords}]]</span>
+            </div>
+        </div>
+
+        <div>
+            <div th:replace="fragments/pager :: pager (page=${tests}, url = @{/tests})"></div>
+        </div>
+
+    </div>
+</main>
+
+<footer th:replace="fragments/simple-footer"></footer>
+<script type="text/javascript" src="/static/js/activate-window.js"></script>
+
+</body>
+</html>

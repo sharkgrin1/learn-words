@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head/common :: head(title='Тест')">
+
+</head>
+<body class="d-flex flex-column h-100" style="background-color: #212529">
+<header th:insert="fragments/header :: nav"></header>
+<main class="flex-shrink-0">
+    <div class="container mt-8 text-white bg-dark">
+        <!--Вопросы-->
+        <div class="bg-dark text-secondary text-center" id="questions">
+            <div class="py-4">
+                <h1 class="display-5 fw-bold text-white mt-5 mb-4" id="display"></h1>
+                <div class="col-lg-6 mx-auto">
+                    <input id="enter" autocomplete="off" type="text" class="form-control fs-5 mb-4">
+                    <div class="d-grid d-sm-flex justify-content-sm-center">
+                        <button type="button" id="answer" class="btn btn-outline-info btn-lg px-4 fw-bold">Ответить
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Результат теста-->
+        <div id="answers" class="text-center justify-content-center">
+            <h1 class="fw-bold text-white mb-4">Результат</h1>
+            <div th:each="num : ${#numbers.sequence(0,test.countWords-1)}">
+                <div class="card text-white mb-3" th:id="block+${num}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:id="question+${num}"></h5>
+                        <p class="card-text">Правильный ответ:<span th:id="right+${num}"></span></p>
+                    </div>
+                    <div class="card-footer">
+                        Ваш ответ:
+                        <span th:id="tester+${num}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Ползунок прогресса-->
+        <div class="progress" style="margin-top: 10%;margin-bottom: 5%">
+            <div id="progress" class="progress-bar progress-bar-striped progress-bar-animated"
+                 role="progressbar"
+                 aria-valuemin="0" th:aria-valuemax="${test.countWords}" style="width: 0"></div>
+        </div>
+
+    </div>
+</main>
+<!--Просчет ответов-->
+<script th:inline="javascript">
+    $("#answers").hide();
+    let words = [[${words}]];
+    let i = 0;
+    let answers = [];
+    $("#display").text(words[i].translations);
+    $("#answer").click(function (e) {
+        $("#progress").css("width", (i + 1) / [[${test.countWords}]] * 100 + "%");
+
+        answers[i] = {question: words[i].translations, right: words[i].name, tester: $("#enter").val()};
+
+        if (i < [[${test.countWords}]] - 1) {
+            $("#display").text(words[++i].translations);
+            $("#enter").val('');
+        } else {
+            answers[i] = {question: words[i].translations, right: words[i].name, tester: $("#enter").val()};
+            $("#questions").hide();
+
+            $("#display").text("Результат");
+
+            for (let index in answers) {
+                $("#question" + index).text(answers[index].question);
+                $("#right" + index).text(" " + answers[index].right);
+                $("#tester" + index).text(answers[index].tester);
+
+                if (answers[index].right.toString().toLowerCase() === answers[index].tester.toString().toLowerCase())
+                    $("#block" + index).addClass("bg-success");
+                else $("#block" + index).addClass("bg-danger");
+
+            }
+
+
+            $("#answers").show();
+        }
+    })
+</script>
+
+<footer th:replace="fragments/simple-footer :: footer(dark='bg-dark')"></footer>
+
+</body>
+</html>

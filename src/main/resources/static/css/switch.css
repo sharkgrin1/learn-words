@@ -1,0 +1,18 @@
+.form-check-input {
+    clear: left;
+}
+
+.form-switch.form-switch-md {
+    margin-bottom: 1rem; /* JUST FOR STYLING PURPOSE */
+}
+
+.form-switch.form-switch-md .form-check-input {
+    height: 1.5rem;
+    width: calc(2rem + 0.75rem);
+    border-radius: 3rem;
+}
+
+.switch-label {
+    margin-left: 10px;
+    font-size: 20px;
+}

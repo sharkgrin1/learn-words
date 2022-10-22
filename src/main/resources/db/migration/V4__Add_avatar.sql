@@ -1,0 +1,1 @@
+alter table users add avatar VARCHAR(300) NOT NULL default 'default.png';

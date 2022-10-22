@@ -1,0 +1,13 @@
+<script th:inline="javascript">
+
+    $("#addGroup").submit(function (e) {
+        if ([[${groupNames}]].includes(document.getElementById("nameGroupInput").value)) {
+            document.getElementById("notUniqueNameGroup").hidden = false;
+
+            e.preventDefault();
+            e.stopPropagation();
+        } else
+            document.getElementById("notUniqueNameGroup").hidden = true;
+
+    });
+</script>

@@ -1,0 +1,51 @@
+<div class="collapse mb-4" id="addNewWord" xmlns:th="https://www.thymeleaf.org">
+    <div class="card card-body">
+
+        <form class="row" method="post" th:action="@{/words}" th:object="${word}" id="addWord">
+            <input hidden name="switch" th:value="${isWords}">
+            <input th:if="${group}" hidden name="groupId" th:value="${group.id}">
+            <div class="col-md-4 mb-4">
+                <input type="text" class="form-control mb-2" id="wordInput" placeholder="Слово / фраза" required
+                       autocomplete="off"
+                       th:field="*{name}">
+                <p id="notUniqueWord" style="color: red" hidden>Такое слово уже существует</p>
+            </div>
+
+            <div class="col-md-4 mb-4 fields">
+                <div class="input-group">
+                    <input type="text" class="form-control mb-2" required autocomplete="off"
+                           th:field="*{translations}"/>
+                    <span class="btn input-group-addon" id="add-field-form">(+)</span>
+                </div>
+                <span id="help-block-form">Введите перевод</span>
+            </div>
+            <script th:replace="fragments/group-input :: group(name='translations',id='-form')"></script>
+
+            <div class="col-md-4 mb-4">
+                <select class="js-select2" multiple="multiple" name="groupNames">
+                    <option th:each="gr : ${groupList}" th:value="${gr.nameGroup}"
+                            th:text="${gr.nameGroup}"
+                            data-badge="" th:selected="${gr.equals(group)}"></option>
+                </select>
+
+                <div th:object="${newGroup}">
+                    <input class="form-control" type="text" placeholder="Новая группа" id="groupInput"
+                           autocomplete="off"
+                           th:field="${newGroup.nameGroup}">
+                    <input hidden name="privacy" value="PUBLIC">
+                    <input hidden name="language" value="DEFAULT">
+                    <p id="notUniqueGroup" style="color: red" hidden>Такая группа уже существует</p>
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center">
+                <div class="col-sm-auto">
+                    <button type="submit" class="btn btn-warning">Добавить</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>

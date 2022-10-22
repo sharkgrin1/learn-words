@@ -1,0 +1,27 @@
+<nav th:fragment="pager (page,url)" xmlns:th="https://www.thymeleaf.org">
+    <ul class="pagination justify-content-center"
+        th:with="total=(${page.getTotalPages()}==0? 0 : ${page.getTotalPages()}-1)">
+
+        <li class="page-item" th:classappend="${page.getNumber()}==0?'disabled':'active'">
+            <a class="page-link" th:href="@{${url}(page=${page.getNumber()-1})}">Назад</a>
+        </li>
+
+        <x th:each="num : ${#numbers.sequence(0,total)}">
+
+            <li class="page-item" th:classappend="${num}==${page.getNumber()}?'active':''">
+                <a class="page-link" th:href="@{${url}(page=${num})}">[[${num}+1]]</a>
+            </li>
+        </x>
+
+        <li th:if="${total==0}" class="page-item disabled">
+            <a class="page-link" th:href="@{${url}(page=${page.getNumber()+1})}">Далее</a>
+        </li>
+
+        <li th:unless="${total==0}" class="page-item"
+            th:classappend="${page.getNumber()}==${page.getTotalPages()}-1?'disabled':'active'">
+            <a class="page-link" th:href="@{${url}(page=${page.getNumber()+1})}">Далее</a>
+        </li>
+
+    </ul>
+</nav>
+

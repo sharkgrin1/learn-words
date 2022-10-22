@@ -1,0 +1,14 @@
+<!--поиск-->
+<div class="mb-4" th:fragment="search (url)">
+    <form class="row g-3 justify-content-center" method="get" th:action="@{${url}}">
+        <div class="col-md-3">
+            <input type="search" class="form-control" placeholder="Поиск" name="search"
+                   th:value="${search}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-warning">Искать</button>
+        </div>
+
+    </form>
+</div>
+<!--поиск-->

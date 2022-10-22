@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head/common :: head (title='Логин')"></head>
+<body class="d-flex flex-column h-100" style="background-color: #212529">
+<header th:insert="fragments/header :: nav"></header>
+
+<main class="flex-shrink-0">
+    <div class="container mt-10 mb-4 text-white bg-dark">
+        <h1 class="text-center">Вход</h1>
+
+            <p class="text-center mt-2" th:if="${activated}" style="color: green">
+                [[${activated}]]
+            </p>
+
+
+        <p class="text-center mt-2" th:if="${param.logout}" style="color: white">
+            Вы вышли из системы
+        </p>
+
+
+        <form th:action="@{/login}" method="post">
+
+            <div class="row justify-content-center">
+                <div class="col-sm-5 mb-3">
+                    <label for="username" class="form-label">Имя пользователя:</label>
+                    <input type="text" class="form-control" name="username" id="username">
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-sm-5 mb-3">
+                    <label for="password" class="form-label">Пароль:</label>
+                    <input type="password" class="form-control" name="password" id="password">
+                </div>
+            </div>
+
+            <p class="text-center mt-2" th:if="${param.error}" style="color: red">
+                Неправильный логин или пароль ИЛИ аккаунт не активирован
+            </p>
+
+            <div class="row justify-content-center">
+                <div class="col-sm-auto">
+                    <button type="submit" class="btn btn-light">Войти</button>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="row justify-content-center">
+            <a class="col-auto mt-3" href="/registration">Зарегистрироваться</a>
+        </div>
+
+
+    </div>
+</main>
+
+<footer th:replace="fragments/simple-footer :: footer(dark='bg-dark')"></footer>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+<script th:inline="javascript">
+    $("#editWord" + [[${trans.id}]]).submit(function (e) {
+        if ([[${wordNames}]].includes(document.getElementById("wordInput" + [[${trans.id}]]).value) &&
+            [[${trans.name}]] !== document.getElementById("wordInput" + [[${trans.id}]]).value) {
+            document.getElementById("notUniqueWord" + [[${trans.id}]]).hidden = false;
+
+            e.preventDefault();
+            e.stopPropagation();
+        } else
+            document.getElementById("notUniqueWord" + [[${trans.id}]]).hidden = true;
+
+    });
+</script>

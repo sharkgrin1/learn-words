@@ -1,0 +1,61 @@
+<button class="btn btn-dark mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#addNewGroup"
+        aria-expanded="false" aria-controls="addNewGroup">
+    Добавить группу
+</button>
+
+<!--    добавление группы-->
+<div class="collapse mb-4" id="addNewGroup">
+    <div class="card card-body">
+
+        <form class="row" method="post" th:action="@{/groups}" th:object="${group}" id="addGroup">
+
+            <div class="col-lg-6 mb-2">
+                <input type="text" class="form-control mb-2" id="nameGroupInput" placeholder="Название" required
+                       autocomplete="off"
+                       th:field="*{nameGroup}">
+                <p id="notUniqueNameGroup" style="color: red" hidden>Такая группа уже существует</p>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <input type="text" class="form-control mb-2" id="descriptionInput" placeholder="Описание"
+                       autocomplete="off"
+                       th:field="*{description}">
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <select class="form-select" aria-label="Язык" name="language">
+                    <option th:each="language : ${T(com.learnwords.webapp.models.Language).values()}"
+                            th:value="${language.name()}"
+                            th:selected="${language}==${T(com.learnwords.webapp.models.Language).DEFAULT}">
+                        [[${language}]]
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-lg-6 mb-2">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="privacy" value="PUBLIC" id="publicRadio"
+                           checked>
+                    <label class="form-check-label" for="publicRadio">
+                        Открыта
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="privacy" value="PRIVATE"
+                           id="privateRadio">
+                    <label class="form-check-label" for="privateRadio">
+                        Закрыта
+                    </label>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-sm-auto">
+                    <button type="submit" class="btn btn-warning">Добавить</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--    добавление группы-->

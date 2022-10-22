@@ -1,0 +1,1 @@
+alter table groups add language VARCHAR(100) NOT NULL default 'DEFAULT';

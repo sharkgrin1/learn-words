@@ -1,0 +1,40 @@
+<!--    карточка с группой-->
+<div class="card mx-auto mb-4" th:fragment="card(url)" th:each="group : ${groups}">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-auto me-auto mt-2">
+                <h5 class="card-title" th:text="${group.nameGroup}"></h5>
+            </div>
+            <div class="col-auto" th:if="${groupNames}">
+                <div th:replace="fragments/groups/card/actions"></div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex w-100 justify-content-between">
+            <p th:text="${group.description}" class="card-text"></p>
+            <div><span class="badge bg-warning text-dark">[[${group.language}]]</span></div>
+        </div>
+        <a th:href="@{${url}(id=${group.id})}" class="btn btn-primary">Подробнее</a>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex w-100 justify-content-between">
+            <span class="text-muted">Количество слов: [[${group.words.size()}]]</span>
+            <span th:if="${group.privacy}==${T(com.learnwords.webapp.models.Privacy).PUBLIC}"
+                  class="text-muted">Подписчики: [[${group.subscribersGroup.size()}]]</span>
+            <div th:if="${groupNames}">
+                <span style="color: red;"
+                      th:if="${group.privacy}==${T(com.learnwords.webapp.models.Privacy).PRIVATE}">
+                     <i class="mt-1 fas fa-lock fa-lg"></i>
+                </span>
+                <span style="color: green;"
+                      th:if="${group.privacy}==${T(com.learnwords.webapp.models.Privacy).PUBLIC}">
+                      <i class="mt-1 fas fa-lock-open fa-lg"></i>
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--    карточка с группой-->

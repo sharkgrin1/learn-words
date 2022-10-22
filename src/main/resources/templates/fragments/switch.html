@@ -1,0 +1,11 @@
+<div class="mb-3" th:fragment="switch(url)">
+    <form th:action="@{${url}}">
+        <div class="form-check form-switch form-switch-md">
+            <input th:if="${user}" hidden name="user" th:value="${user.id}">
+            <input class="form-check-input" type="checkbox" id="switch" name="switch" th:checked="${isWords}">
+            <label class="form-check-label" for="switch">
+                <span class="switch-label">Показать слова</span>
+            </label>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head/common :: head(title='Профиль')">
+
+</head>
+<body class="d-flex flex-column h-100">
+<header th:insert="fragments/header :: nav"></header>
+
+
+<main class="flex-shrink-0">
+    <div class="container mt-7 mb-4">
+
+        <!--    Ава-->
+        <div class="card-container">
+            <div class="card text-center mx-auto " style="width: 18rem;">
+                <img th:src="@{/img/{file}(file=${user.avatar})}"
+                     class="card-img-top" alt="Изображения нет">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${user.username}">username</h5>
+                </div>
+            </div>
+        </div>
+        <!--    Ава-->
+
+        <hr>
+
+        <h4 class="mb-3">Открытые группы:</h4>
+        <div class="list-group">
+            <a th:each="group : ${groups}" th:href="@{/sub/{id}(id=${group.id})}"
+               class="list-group-item list-group-item-action" aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-2" th:text="${group.nameGroup}">Группа</h5>
+                    <small>Подписчики: [[${group.subscribersGroup.size()}]]</small>
+                </div>
+                <div class="d-flex w-100 justify-content-between">
+                    <p class="mb-2" th:text="${group.description}">Описание</p>
+                    <small>Количество слов: [[${group.words.size()}]]</small>
+                </div>
+
+                <div class="d-flex w-100 justify-content-between">
+                    <!--            Подписка и отписка-->
+                    <div th:unless="${isUserPage}">
+                        <form th:unless="${group.subscribersGroup.contains(currentUser)}"
+                              th:method="post"
+                              th:action="@{/profile}">
+                            <input hidden name="group" th:value="${group.id}">
+                            <input hidden name="user" th:value="${user.id}">
+                            <button type="submit" class="btn btn-outline-dark" th:href="@{/groups}">Подписаться
+                            </button>
+                        </form>
+
+                        <form th:if="${group.subscribersGroup.contains(currentUser)}"
+                              th:method="delete"
+                              th:action="@{/profile}">
+                            <input hidden name="group" th:value="${group.id}">
+                            <input hidden name="user" th:value="${user.id}">
+                            <button type="submit" class="btn btn-outline-dark active">Отписаться</button>
+                        </form>
+                    </div>
+                    <!--            Подписка и отписка-->
+
+                    <!--            скрытие группы-->
+                    <div th:if="${isUserPage}">
+                        <form th:method="put"
+                              th:action="@{/profile/hide}">
+                            <input hidden name="group" th:value="${group.id}">
+                            <button type="submit" class="btn btn-outline-dark"><i class="fas fa-eye-slash"></i> Скрыть
+                            </button>
+                        </form>
+                    </div>
+                    <!--            скрытие группы-->
+                    <small><span class="badge bg-warning text-dark">[[${group.language}]]</span></small>
+                </div>
+
+
+            </a>
+        </div>
+
+    </div>
+</main>
+
+<footer th:replace="fragments/simple-footer"></footer>
+</body>
+</html>
+
+<style>
+
+    .card-img-top {
+        height: 15rem;
+        object-fit: cover;
+    }
+
+    .card-container {
+        background-color: #F5F5F5;
+        border-radius: 20px;
+        padding-top: 2em;
+        padding-bottom: 2em;
+    }
+
+    .list-group {
+        max-height: 300px;
+        margin-bottom: 10px;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>

@@ -1,0 +1,21 @@
+<head xmlns:th="https://www.thymeleaf.org" th:fragment="head (title)" th:with="extra=${extra}?:false">
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <link rel="icon" type="image/x-icon" href="/Favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="/webjars/bootstrap/5.0.0-beta2/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.0.0-beta2/css/bootstrap.min.css" />
+
+    <!--    иконки-->
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.10.1/css/all.css}"/>
+
+    <!--    jquery-->
+    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <x th:if="${extra}">
+        <x th:insert="fragments/head/extra"></x>
+    </x>
+</head>

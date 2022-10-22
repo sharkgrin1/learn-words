@@ -1,0 +1,75 @@
+<div class="modal fade" xmlns:th="https://www.thymeleaf.org" th:id="modal+${user.id}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <form th:action="@{/admin}" th:method="put">
+                <div class="modal-body">
+
+                    <div class="mb-4 row">
+                        <div class="col-sm-2">
+                            <label th:for="idInput"
+                                   class="col-form-label">id</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control mb-2" readonly
+                                   th:id="idInput"
+                                   th:value="${user.id}" name="id">
+                        </div>
+                    </div>
+
+                    <div class="mb-4 row">
+                        <div class="col-sm-2">
+                            <label th:for="usernameInput"
+                                   class="col-form-label">username</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control mb-2" readonly
+                                   th:id="usernameInput"
+                                   th:value="${user.username}" name="username">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="roles" value="USER" id="userRole"
+                                   th:checked="${user.roles.contains(T(com.learnwords.webapp.models.Role).USER)}" readonly>
+                            <label class="form-check-label" for="userRole">
+                                USER
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="roles" value="ADMIN" id="adminRole"
+                                   th:checked="${user.roles.contains(T(com.learnwords.webapp.models.Role).ADMIN)}">
+                            <label class="form-check-label" for="adminRole">
+                                ADMIN
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="true" name="isActive" id="active"
+                                   th:checked="${user.isActive}">
+                            <input type="hidden" name="isActive" value="false">
+
+                            <label class="form-check-label" for="active">
+                                isActive
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+                        Закрыть
+                    </button>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head/common :: head(title='Мои слова',extra=true)"></head>
+<body class="d-flex flex-column h-100">
+<header th:replace="fragments/header :: nav"></header>
+<main class="flex-shrink-0">
+    <div class="container mt-7 mb-4">
+
+        <div class="row">
+            <div class="col me-auto">
+                <button class="btn btn-dark mb-3" type="button" data-toggle="collapse" data-target="#addNewWord"
+                        aria-expanded="false" aria-controls="addNewWord">
+                    Добавить слово
+                </button>
+            </div>
+            <div class="col-auto">
+                <!--    режимы-->
+                <div th:replace="fragments/switch :: switch(url=@{/words})"></div>
+            </div>
+        </div>
+
+        <!--    добавление слова-->
+        <div th:replace="fragments/words/add-word"></div>
+
+        <!--поиск-->
+        <div class="mb-4">
+            <form class="row g-3 justify-content-center" method="get" th:action="@{/words}">
+                <input hidden name="switch" th:value="${isWords}">
+                <div class="col-md-3">
+                    <input type="search" class="form-control" placeholder="Поиск" name="searchWord"
+                           th:value="${searchWord}">
+                </div>
+                <div class="col-md-3">
+                    <select class="js-select2" multiple="multiple" name="searchGroup">
+                        <option th:each="group : ${groupList}" th:value="${group.nameGroup}"
+                                th:text="${group.nameGroup}"
+                                th:selected="${searchGroup}?${searchGroup.contains(group.nameGroup)}:false"
+                                data-badge=""></option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-warning">Искать</button>
+                </div>
+
+            </form>
+        </div>
+        <!--поиск-->
+
+        <!--    карточка с переводами-->
+        <div th:unless="${isWords}">
+            <div th:replace="fragments/words/card/card-translation :: card(words=${words})"></div>
+        </div>
+        <!--    карточка с переводами-->
+
+        <!--карточка со словами-->
+        <div th:if="${isWords}">
+            <div th:replace="fragments/words/card/card-word :: card(words=${words})"></div>
+        </div>
+        <!--карточка со словами-->
+
+        <div th:if="${searchWord}">
+            <div th:replace="fragments/pager :: pager (page=${words}, url = @{/words(searchWord=${searchWord},searchGroup=${searchGroup})})"></div>
+        </div>
+        <div th:unless="${searchWord}">
+            <div th:replace="fragments/pager :: pager (page=${words}, url = @{/words(switch=${isWords})})"></div>
+        </div>
+
+
+    </div>
+</main>
+
+<footer th:replace="fragments/simple-footer"></footer>
+
+
+<!-- Валидация слова и группы в форме добавления слова -->
+<script th:replace="fragments/words/validation/add-word-form"></script>
+
+<script type="text/javascript" src="/static/js/switch.js"></script>
+
+<script type="text/javascript" src="/static/js/select.js"></script>
+
+<script type="text/javascript" src="/static/js/activate-window.js"></script>
+</body>
+</html>

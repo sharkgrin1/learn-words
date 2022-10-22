@@ -1,0 +1,13 @@
+<script th:inline="javascript">
+    $("#editGroup" + [[${group.id}]]).submit(function (e) {
+        if ([[${groupNames}]].includes(document.getElementById("nameGroupInput" + [[${group.id}]]).value) &&
+            [[${group.nameGroup}]] !== document.getElementById("nameGroupInput" + [[${group.id}]]).value) {
+            document.getElementById("notUniqueNameGroup" + [[${group.id}]]).hidden = false;
+
+            e.preventDefault();
+            e.stopPropagation();
+        } else
+            document.getElementById("notUniqueNameGroup" + [[${group.id}]]).hidden = true;
+
+    });
+</script>

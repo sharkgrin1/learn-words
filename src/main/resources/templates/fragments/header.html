@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="/static/css/header.css">
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="https://www.thymeleaf.org">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">LW</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars"
+                aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbars">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/words">Мои слова</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/groups">Мои группы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/sub">Подписки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tests">Тесты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/popular">Популярное</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: #0dcaf0" class="nav-link" href="/admin" sec:authorize="hasAuthority('ADMIN')">Админ</a>
+                </li>
+            </ul>
+
+            <div class="navbar-nav" style="margin-right: 1em"
+                 th:if="${#httpServletRequest.requestURI == '/'}"
+                 sec:authorize="isAuthenticated()">
+                <input onclick="on()" class="form-control" type="search" placeholder="Поиск">
+            </div>
+
+            <ul class="navbar-nav" sec:authorize="isAuthenticated()">
+                <li class="nav-item dropdown" style="margin-right: 1em">
+                    <a class="nav-link dropdown-toggle" sec:authentication="name" id="navbarScrollingDropdown"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item" href="/profile">Профиль</a></li>
+                        <li><a class="dropdown-item" href="/settings">Настройки</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <a th:href="@{/login}" class="btn btn-outline-light" sec:authorize="isAnonymous()">Войти</a>
+            <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <input class="btn btn-outline-light" type="submit" value="Выйти">
+            </form>
+
+        </div>
+    </div>
+</nav>
+
+<div id="overlay">
+    <div class="container">
+        <form class="row mb-5" method="get" action="/">
+            <div class="col-sm-9 mb-2">
+                <input class="form-control" type="search" placeholder="Пользователь/Группа" name="search" th:value="${search}">
+            </div>
+            <div class="col-sm-2 mb-2">
+                <select class="form-select" aria-label="Язык" name="language">
+                    <option th:each="language : ${T(com.learnwords.webapp.models.Language).values()}"
+                            th:value="${language.name()}"
+                            th:selected="${language}==${selectedLanguage}">
+                        [[${language}]]
+                    </option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-light">Искать</button>
+            </div>
+        </form>
+        <h3 style="color: white">Группы:</h3>
+        <div class="row justify-content-center">
+            <div class="col-auto mb-2" th:each="group : ${groups}">
+                <a class="link" style="font-size: larger"
+                   th:href="@{/sub/{id}(id=${group.id})}">[[${group.nameGroup}]]</a>
+                <p style="color: white">[[${group.groupAuthor.username}]]</p>
+            </div>
+        </div>
+        <h3 style="color: white">Пользователи:</h3>
+        <div class="row justify-content-center">
+            <div class="col-auto mb-2" th:each="user : ${users}">
+                <img class="ava" th:src="@{/img/{file}(file=${user.avatar})}" width="50" height="50">
+                <a class="link" th:href="@{/profile/{user}(user=${user.id})}">[[${user.username}]]</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Поиск пользователей скрипт-->
+<script th:replace="fragments/header-overlay"></script>

@@ -1,0 +1,21 @@
+<script th:inline="javascript">
+
+    $("#addWord").submit(function (e) {
+        if ([[${wordNames}]].includes(document.getElementById("wordInput").value)) {
+            document.getElementById("notUniqueWord").hidden = false;
+
+            e.preventDefault();
+            e.stopPropagation();
+        } else
+            document.getElementById("notUniqueWord").hidden = true;
+
+        if ([[${groupNames}]].includes(document.getElementById("groupInput").value)) {
+            document.getElementById("notUniqueGroup").hidden = false;
+
+            e.preventDefault();
+            e.stopPropagation();
+        } else
+            document.getElementById("notUniqueGroup").hidden = true;
+
+    });
+</script>

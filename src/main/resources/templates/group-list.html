@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head/common :: head(title='Мои группы')">
+
+</head>
+<body class="d-flex flex-column h-100">
+<header th:insert="fragments/header :: nav"></header>
+<main class="flex-shrink-0">
+    <div class="container mt-7 mb-4">
+
+        <!--    добавление группы-->
+        <div th:replace="fragments/groups/add-group"></div>
+
+        <!--    поиск группы-->
+        <div th:replace="fragments/groups/search-group :: search(url=@{/groups})"></div>
+
+        <!--    карточка с группой-->
+        <div th:replace="fragments/groups/card/card-group :: card(url=@{/groups/{id}})"></div>
+
+        <div th:if="${search}">
+            <div th:replace="fragments/pager :: pager (page=${groups}, url = @{/groups(search=${search})})"></div>
+        </div>
+        <div th:unless="${search}">
+            <div th:replace="fragments/pager :: pager (page=${groups}, url = @{/groups})"></div>
+        </div>
+
+
+    </div>
+</main>
+
+<footer th:replace="fragments/simple-footer"></footer>
+
+<!-- Валидация группы в форме добавления группы -->
+<script th:replace="fragments/groups/validation/add-group-form"></script>
+</body>
+</html>

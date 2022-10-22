@@ -1,0 +1,14 @@
+<script th:inline="javascript">
+    $("#checkAnswer" + "[[${trans.id}]]").submit(function (e) {
+        if (document.getElementById("id" + "[[${trans.id}]]").value.toLowerCase() === [[${trans.name}]].toString().toLowerCase()) {
+            document.getElementById("right" + "[[${trans.id}]]").hidden = false;
+            document.getElementById("error" + "[[${trans.id}]]").hidden = true;
+        } else {
+            document.getElementById("error" + "[[${trans.id}]]").hidden = false;
+            document.getElementById("right" + "[[${trans.id}]]").hidden = true;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+    });
+</script>
